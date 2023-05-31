@@ -1,6 +1,6 @@
 package graphics;
 
-import graphics.views.UserCreateFormView;
+import graphics.veiw.UserCreateFormView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,4 +29,3 @@ public class LoginFrame extends JFrame {
     }
 
 }
-
