@@ -1,12 +1,13 @@
 package graphics.veiw;
 
-import BusinessLogic.DataBaseConnector;
+import BusinessLogic.HibernateSessionFactory;
 import BusinessLogic.UserRepository;
 import BusinessLogic.UserService;
 import DataModel.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import document.Document;
 import graphics.AdminFrame;
+import graphics.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,7 +50,7 @@ public class UserCreateFormView extends JPanel {
         enterButton.addActionListener((actionEvent) -> {
             String userName = nameField.getText();
             String userPassword = passwordField.getText();
-            DataBaseConnector connector = new DataBaseConnector();
+            HibernateSessionFactory connector = new HibernateSessionFactory();
             UserRepository userRepository = new UserRepository(connector);
             UserService userService = new UserService(userRepository);
             User user = userService.getById(userName, userPassword);
@@ -63,17 +64,17 @@ public class UserCreateFormView extends JPanel {
                         adminFrame.setVisible(true);
                         adminFrame.setTitle("Панель администратора");
                     }
-                    /*else if(user.getDocument() == null){
+                    else if(user.getDocument() == null){
                         document = new Document();
-                        MainFrame mainFrame = new MainFrame(document, user);
+                        MainFrame mainFrame = new MainFrame();
                         mainFrame.setVisible(true);
                         mainFrame.setTitle("Электронное портфолио - " + document.getTitle());
                     } else {
                         document = mapper.readValue(user.getDocument(), Document.class);
-                        MainFrame mainFrame = new MainFrame(document, user);
+                        MainFrame mainFrame = new MainFrame();
                         mainFrame.setVisible(true);
                         mainFrame.setTitle("Электронное портфолио - " + document.getTitle());
-                    }*/
+                    }
 
                 } catch (Exception e1) {
                     e1.printStackTrace();
