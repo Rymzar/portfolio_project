@@ -1,6 +1,6 @@
 package graphics;
 
-import BusinessLogic.DataBaseConnector;
+import BusinessLogic.HibernateSessionFactory;
 import BusinessLogic.UserRepository;
 import BusinessLogic.UserService;
 import DataModel.User;
@@ -30,58 +30,53 @@ public class AdminFrame extends JFrame {
     }
 
     private void setupAdminPanel() {
-        DataBaseConnector connector = new DataBaseConnector();
-        UserRepository userRepository = new UserRepository(connector);
-        UserService userService = new UserService(userRepository);
-        ArrayList<User> users = userService.getAll();
 
     }
 
     public void creatUser() {
-        setLayout(new GridBagLayout());
+        //вернее меню
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("HELP");
+        menuBar.add(menu);
 
-        JTextField nameField = new JTextField(12);
-        JPasswordField passwordField = new JPasswordField(12);
+        JMenuItem item = new JMenuItem("Руководство админа");
+        menu.add(item);
+        //регистрация пользователя
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Регистрация нового пользователя");
 
-        JLabel nameLabel = new JLabel("Имя:");
-        JLabel passwordLabel = new JLabel("Пароль:");
+        JTextField nameField = new JTextField(10);
+        JTextField passwordField = new JTextField(10);
+        JButton addButton = new JButton("Зарегистрировать");
 
-        JButton addButton = new JButton("Зарегистрировать нового пользователя");
+        panel.add(label);
+        panel.add(nameField);
+        panel.add(passwordField);
+        panel.add(addButton);
 
-        setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(10, 10, 10, 10);
-        constraints.anchor = GridBagConstraints.CENTER;
+        //вывод списка пользователей
+        HibernateSessionFactory connector = new HibernateSessionFactory();
+        UserRepository userRepository = new UserRepository(connector);
+        UserService userService = new UserService(userRepository);
+        ArrayList<User> users = userService.getAll();
 
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        add(nameLabel, constraints);
+        JComponent one = new JLabel("Пользователи");
+        one.setBorder(BorderFactory.createLineBorder(Color.MAGENTA));
+        JComponent two = new JLabel("Портфолио пользователей");
+        two.setBorder(BorderFactory.createLineBorder(Color.ORANGE));
 
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        add(nameField, constraints);
 
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        add(passwordLabel, constraints);
-
-        constraints.gridx = 1;
-        constraints.gridy = 1;
-        add(passwordField, constraints);
-
-        constraints.gridwidth = 2;
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        add(addButton, constraints);
+        //размещение элементов
+        getContentPane().add(BorderLayout.SOUTH, panel);
+        getContentPane().add(BorderLayout.NORTH, menuBar);
+        JSplitPane demo = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, one, two);
+        getContentPane().add(BorderLayout.CENTER, demo);
+        setVisible(true);
 
         addButton.addActionListener((actionEvent) -> {
             String userName = nameField.getText();
             String userPassword = passwordField.getText();
-            DataBaseConnector connector = new DataBaseConnector();
-            UserRepository userRepository = new UserRepository(connector);
-            UserService userService = new UserService(userRepository);
-
-            User event = new User(userName, 1L, userPassword, "", false);
+            User event = new User(1L, userName,  userPassword, "", false);
 
             User user = userService.getByName(userName);
             if(user == null) {
