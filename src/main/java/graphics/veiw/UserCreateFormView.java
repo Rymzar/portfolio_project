@@ -1,10 +1,7 @@
 package graphics.veiw;
 
-import BusinessLogic.HibernateSessionFactory;
-import BusinessLogic.UserRepository;
 import BusinessLogic.UserService;
 import DataModel.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import document.Document;
 import graphics.AdminFrame;
 import graphics.MainFrame;
@@ -50,12 +47,9 @@ public class UserCreateFormView extends JPanel {
         enterButton.addActionListener((actionEvent) -> {
             String userName = nameField.getText();
             String userPassword = passwordField.getText();
-            HibernateSessionFactory connector = new HibernateSessionFactory();
-            UserRepository userRepository = new UserRepository(connector);
-            UserService userService = new UserService(userRepository);
+            UserService userService = new UserService();
             User user = userService.getById(userName, userPassword);
             if(user != null) {
-                ObjectMapper mapper = new ObjectMapper();
                 try {
                     Document document;
                     if (user.isAdmin() == true) {
@@ -64,16 +58,10 @@ public class UserCreateFormView extends JPanel {
                         adminFrame.setVisible(true);
                         adminFrame.setTitle("Панель администратора");
                     }
-                    else if(user.getDocument() == null){
-                        document = new Document();
+                    else {
                         MainFrame mainFrame = new MainFrame();
                         mainFrame.setVisible(true);
-                        mainFrame.setTitle("Электронное портфолио - " + document.getTitle());
-                    } else {
-                        document = mapper.readValue(user.getDocument(), Document.class);
-                        MainFrame mainFrame = new MainFrame();
-                        mainFrame.setVisible(true);
-                        mainFrame.setTitle("Электронное портфолио - " + document.getTitle());
+                        mainFrame.setTitle("Электронное портфолио");
                     }
 
                 } catch (Exception e1) {
