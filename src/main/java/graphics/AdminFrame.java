@@ -1,14 +1,12 @@
 package graphics;
 
-import BusinessLogic.HibernateSessionFactory;
-import BusinessLogic.UserRepository;
 import BusinessLogic.UserService;
 import DataModel.User;
 import document.Document;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class AdminFrame extends JFrame {
 
@@ -55,10 +53,8 @@ public class AdminFrame extends JFrame {
         panel.add(addButton);
 
         //вывод списка пользователей
-        HibernateSessionFactory connector = new HibernateSessionFactory();
-        UserRepository userRepository = new UserRepository(connector);
-        UserService userService = new UserService(userRepository);
-        ArrayList<User> users = userService.getAll();
+        UserService userService = new UserService();
+        List<User> users = userService.findAllUsers();
 
         JComponent one = new JLabel("Пользователи");
         one.setBorder(BorderFactory.createLineBorder(Color.MAGENTA));
@@ -76,11 +72,11 @@ public class AdminFrame extends JFrame {
         addButton.addActionListener((actionEvent) -> {
             String userName = nameField.getText();
             String userPassword = passwordField.getText();
-            User event = new User(1L, userName,  userPassword, "", false);
+            User event = new User(1L, userName,  userPassword,  false);
 
             User user = userService.getByName(userName);
             if(user == null) {
-                userService.add(event);
+                userService.saveUser(event);
                 JFrame f1 = (JFrame) SwingUtilities.windowForComponent(this);
                 f1.dispose();
             } else {
