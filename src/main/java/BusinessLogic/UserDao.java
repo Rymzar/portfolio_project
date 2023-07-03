@@ -5,6 +5,7 @@ import DataModel.UserProfile;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.awt.*;
 import java.util.List;
 
 public class UserDao {
@@ -38,6 +39,10 @@ public class UserDao {
 
     public UserProfile findProfileById(Long id) {
         return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(UserProfile.class, id);
+    }
+
+    public Image findImageById(Long id) {
+        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Image.class, id);
     }
 
     public List<User> findAll() {

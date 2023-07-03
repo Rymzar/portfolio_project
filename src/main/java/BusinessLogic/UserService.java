@@ -3,6 +3,7 @@ package BusinessLogic;
 import DataModel.User;
 import DataModel.UserProfile;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +36,10 @@ public class UserService {
 
     public UserProfile findProfileById(Long id) {
         return usersDao.findProfileById(id);
+    }
+
+    public Image findImageById(Long id) {
+        return usersDao.findImageById(id);
     }
 
     public User getById(String name, String password) {
