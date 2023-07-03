@@ -7,10 +7,7 @@ package models;
 
 import java.sql.Date;
 
-/**
- *
- * @author hocin
- */
+
 public class Student {
     
     

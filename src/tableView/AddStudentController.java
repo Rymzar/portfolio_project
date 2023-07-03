@@ -23,11 +23,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import models.Student;
 
-/**
- * FXML Controller class
- *
- * @author hocin
- */
+
 public class AddStudentController implements Initializable {
 
     @FXML

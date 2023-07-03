@@ -40,11 +40,7 @@ import javafx.util.Callback;
 import jdk.nashorn.internal.objects.annotations.Property;
 import models.Student;
 
-/**
- * FXML Controller class
- *
- * @author hocin
- */
+
 public class TableViewController implements Initializable {
 
     @FXML

@@ -12,11 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-
-/**
- *
- * @author hocin
- */
 public class DbConnect {
     
     private static String HOST = "127.0.0.1";
